@@ -27,6 +27,7 @@ end
 # header = "| #{ @column_data.map { |_,col| col[:label].ljust(col[:width]) }.join(' | ') } |"
 # divider = "+-#{@column_data.map { |_,col| "-"*col[:width] }.join('-+-') }-+"
 
+
 def format_row_data(row_data, column_info)
   row = row_data.keys.map { |key| row_data[key].ljust(column_info[key][:width]) }.join(' | ')
   puts "| #{row} |"
