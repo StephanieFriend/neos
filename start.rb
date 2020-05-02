@@ -18,8 +18,14 @@ column_data = column_labels.each_with_object({}) do |(col, label), hash|
     width: [astroid_list.map { |astroid| astroid[col].size }.max, label.size].max}
 end
 
-header = "| #{ column_data.map { |_,col| col[:label].ljust(col[:width]) }.join(' | ') } |"
-divider = "+-#{column_data.map { |_,col| "-"*col[:width] }.join('-+-') }-+"
+header = "|"
+divider = "+-"
+column_data.each do |_, col|
+  header += "#{col[:label].ljust(col[:width])} |"
+  divider += "#{"-"*col[:width]}-+"
+end
+# header = "| #{ @column_data.map { |_,col| col[:label].ljust(col[:width]) }.join(' | ') } |"
+# divider = "+-#{@column_data.map { |_,col| "-"*col[:width] }.join('-+-') }-+"
 
 def format_row_data(row_data, column_info)
   row = row_data.keys.map { |key| row_data[key].ljust(column_info[key][:width]) }.join(' | ')
@@ -35,7 +41,7 @@ puts "__________________________________________________________________________
 puts "On #{formated_date}, there were #{total_number_of_astroids} objects that almost collided with the earth."
 puts "The largest of these was #{largest_astroid} ft. in diameter."
 puts "\nHere is a list of objects with details:"
-puts divider
 puts header
-create_rows(astroid_list, column_data)
+puts divider
+create_rows(astroid_list, @column_data)
 puts divider

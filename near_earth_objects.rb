@@ -15,11 +15,18 @@ class NearEarthObjects
 
     parsed_asteroids_data = JSON.parse(asteroids_list_data.body, symbolize_names: true)[:near_earth_objects][:"#{date}"]
 
-    largest_astroid_diameter = parsed_asteroids_data.map do |astroid|
-      astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
-    end.max { |a,b| a<=> b}
+    astroid_diameter = parsed_asteroids_data.max_by do |astroid|
+      astroid[:estimated_diameter][:feet][:estimated_diameter_max]
+    end
+    largest_astroid_diameter = astroid_diameter[:estimated_diameter][:feet][:estimated_diameter_max].to_i
+
+    # largest_astroid_diameter = parsed_asteroids_data.map do |astroid|
+    #   astroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
+    # end.max { |a,b| a<=> b}
 
     total_number_of_astroids = parsed_asteroids_data.count
+
+
     formatted_asteroid_data = parsed_asteroids_data.map do |astroid|
       {
         name: astroid[:name],
